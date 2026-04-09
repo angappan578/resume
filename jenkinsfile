@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // GitHub-la irundhu code-ah edukum
+                checkout scm
+            }
+        }
+
+        stage('Deploy to Nginx') {
+            steps {
+                echo 'Deploying Resume Project to Nginx...'
+                // Nginx default folder-ku files-ah copy pannum
+                // -r na recursive (folders-kum serthu), -v na verbose (enna nadakudhu nu kaatum)
+                sh 'cp -rv * /var/www/html/'
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Resume Successfully Deployed!'
+        }
+    }
+}
